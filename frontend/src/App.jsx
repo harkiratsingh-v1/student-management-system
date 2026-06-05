@@ -4,24 +4,31 @@ function App(){
 
     //{"id":1,"name":"John Doe","course":"Computer Science"}
 
-    const [student, setStudent] = useState(null);
+    const [students, setStudents] = useState([]);
     
-    const getStudent = async () => {
+    const getStudents = async () => {
         
             const response = await fetch('http://localhost:8080/students');
             const data = await response.json();
-            setStudent(data);
+            setStudents(data);
         
     };
 
     return (
         <div>
-            <button onClick={getStudent}>
-                fetch Student
+            <button onClick={getStudents}>
+                Fetch Students
             </button>
-            <h1>Here is student data:</h1>
-            <h1>{student?.name}</h1>
-            <h1>{student?.course}</h1>
+
+            <ul>
+                {students.map(student => (
+                    <li key={student.id}>
+                        {student.name} - {student.course}
+                    </li>
+                ))}
+            </ul>
+
+
         </div>
     )
 }

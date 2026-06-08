@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/students")
@@ -15,6 +17,10 @@ import org.springframework.web.bind.annotation.*;
 
 
 public class StudentController{
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
 
     @GetMapping
     public ArrayList<Student> getStudents(){
@@ -30,4 +36,10 @@ public class StudentController{
              .filter(student -> "Bca".equals(student.getCourse()))
              .collect(Collectors.toList());
     }
+    @GetMapping("/count")
+    public int countStudents() {
+        String sql = "SELECT COUNT(*) FROM students";
+
+        return jdbcTemplate.queryForObject(sql,Integer.class);
+}
 }

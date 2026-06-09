@@ -1,13 +1,13 @@
 package com.example.sms.controller;
 
 import com.example.sms.model.Student;
+import com.example.sms.service.StudentService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 public class StudentController{
 
+
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private StudentService service;
 
 
     @GetMapping
@@ -38,8 +39,11 @@ public class StudentController{
     }
     @GetMapping("/count")
     public int countStudents() {
-        String sql = "SELECT COUNT(*) FROM students";
+        return service.getStudentCount();
+    }
 
-        return jdbcTemplate.queryForObject(sql,Integer.class);
-}
+    @GetMapping("/message")
+    public String getMessage() {
+        return service.getStudentInfo();
+    }
 }

@@ -23,14 +23,15 @@ public class StudentController{
     private StudentService service;
 
 
-    @GetMapping
-    public ArrayList<Student> getStudents(){
-        ArrayList<Student> students=new ArrayList<>();
-        students.add(new Student(1, "Harkirat Singh", "Btech"));
-        students.add(new Student(2, "Prabhjot", "Bca"));
-        students.add(new Student(3, "Aman", "BTech"));
-        return students;
-    }
+    // @GetMapping
+    // public ArrayList<Student> getStudents(){
+    //     ArrayList<Student> students=new ArrayList<>();
+    //     students.add(new Student(1, "Harkirat Singh", "Btech"));
+    //     students.add(new Student(2, "Prabhjot", "Bca"));
+    //     students.add(new Student(3, "Aman", "BTech"));
+    //     return students;
+   // }
+
     @GetMapping("/bca")
     public List<Student>getBcaStudents(){
         return getStudents().stream()
@@ -46,4 +47,12 @@ public class StudentController{
     public String getMessage() {
         return service.getStudentInfo();
     }
+    @GetMapping
+    public List<Student> getStudents() {
+        return service.getAllStudents();
+    }
+    @PostMapping
+    public Student addStudent(@RequestBody Student student) {
+    return service.saveStudent(student);
+}
 }

@@ -1,92 +1,83 @@
 import { useState } from "react";
 
-function App(){
+function App() {
+  //{"id":1,"name":"John Doe","course":"Computer Science"}
 
-    //{"id":1,"name":"John Doe","course":"Computer Science"}
+  const [students, setStudents] = useState([]);
+  const [count, setCount] = useState(0);
 
-    const [students, setStudents] = useState([]);
-    const [count, setCount] = useState(0);
+  const [name, setName] = useState("");
+  const [course, setCourse] = useState("");
 
-    const [name,setName] = useState("");
-    const [course,setCourse] = useState("");
+  const getStudents = async () => {
+    const response = await fetch("http://localhost:8080/students");
+    const data = await response.json();
+    setStudents(data);
+  };
 
-    
-    const getStudents = async () => {
-        
-            const response = await fetch('http://localhost:8080/students');
-            const data = await response.json();
-            setStudents(data);
-        
-    };
+  const getBcaStudents = async () => {
+    const response = await fetch("http://localhost:8080/students/bca");
+    const data = await response.json();
+    setStudents(data);
+  };
 
-    const getBcaStudents = async () => {
-        const response = await fetch('http://localhost:8080/students/bca');
-        const data = await response.json();
-        setStudents(data);
-    };
+  const fetchTotalStudentCount = async () => {
+    const response = await fetch("http://localhost:8080/students/count");
+    const data = await response.json();
+    setCount(data);
+  };
 
+  const addStudent = async () => {
+    const response = await fetch("http://localhost:8080/students", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, course }),
+    });
 
-    const fetchTotalStudentCount = async () => {
-        const response = await fetch('http://localhost:8080/students/count');
-        const data = await response.json();
-        setCount(data);
+    if (response.ok) {
+      alert("Student registered successfully!");
+    } else {
+      alert("Failed to register student.");
     }
+  };
 
-    const addStudent =  async () => {
-        const response = await fetch('http://localhost:8080/students', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name, course })
-        });
+  return (
+    <div>
+      <button onClick={getStudents}>fetch Students</button>
 
-        if (response.ok) {
-            alert('Student registered successfully!');
-        } else {
-            alert('Failed to register student.');
-        }
+      <button onClick={getBcaStudents}>fetch BCA Students</button>
 
-    }
-    
-    return (
-        <div>
-            <button onClick={getStudents}>
-                fetch Students
-            </button>
+      <ul>
+        {students.map((student) => (
+          <li key={student.id}>
+            {student.name} - {student.course}
+          </li>
+        ))}
+      </ul>
 
-            <button onClick={getBcaStudents}>
-                fetch BCA Students
-            </button>
+      <button onClick={fetchTotalStudentCount}>
+        Fetch Total Student Count
+      </button>
+      <p>Total Students: {count}</p>
 
-            <ul>
-                {students.map(student => (
-                    <li key={student.id}>
-                        {student.name} - {student.course}
-                    </li>
-                ))}
-            </ul>
+      <h1>Student Registration Form</h1>
+      <input
+        type="text"
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      ></input>
 
-            <button onClick={fetchTotalStudentCount}>
-                Fetch Total Student Count
-            </button>
-            <p>Total Students: {count}</p>
-
-            <h1>Student Registration Form</h1>
-            <input type="text"
-             placeholder="Name"
-             value={name}
-             onChange={(e) => setName(e.target.value)}
-            ></input>
-
-            <input
-            type="text"
-            placeholder="Course"
-            value={course}
-            onChange={(e) => setCourse(e.target.value)}></input>
-            <button onClick={addStudent}>Register</button>
-
-        </div>
-    )
+      <input
+        type="text"
+        placeholder="Course"
+        value={course}
+        onChange={(e) => setCourse(e.target.value)}
+      ></input>
+      <button onClick={addStudent}>Register</button>
+    </div>
+  );
 }
 export default App;

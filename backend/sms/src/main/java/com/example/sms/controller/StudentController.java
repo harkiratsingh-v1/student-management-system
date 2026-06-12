@@ -4,7 +4,7 @@ import com.example.sms.dto.StudentRequestDTO;
 import com.example.sms.dto.StudentResponseDTO;
 import com.example.sms.model.Student;
 import com.example.sms.service.StudentService;
-
+import java.util.Map;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,11 +69,18 @@ public class StudentController{
                     );
     return ResponseEntity.ok(response);
 }
-@PostMapping
-public ResponseEntity<?> addStudent(@RequestBody StudentRequestDTO dto) {
-
+    @PostMapping
+    public ResponseEntity<?> addStudent(@RequestBody StudentRequestDTO dto) {
     Student student = service.addStudent(dto);
-
     return ResponseEntity.ok(student);
+}
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateStudent(@PathVariable Integer id, @RequestBody StudentRequestDTO dto) {
+    Student student=service.updateStudent(id,dto);
+    return ResponseEntity.ok(student);
+}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteStudent(@PathVariable Integer id) {  
+    return ResponseEntity.ok(Map.of("message",service.deleteStudent(id)));
 }
 }

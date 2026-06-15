@@ -8,6 +8,8 @@ function App() {
 
   const [name, setName] = useState("");
   const [course, setCourse] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const getStudents = async () => {
     const response = await fetch("http://localhost:8080/students");
@@ -43,6 +45,21 @@ function App() {
     }
   };
 
+  const login = async () => {
+    const response = await fetch("http://localhost:8080/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    if (response.ok) {
+      alert("Login successful!");
+    } else {
+      alert("Login failed.");
+    }
+  };
   return (
     <div>
       <button onClick={getStudents}>fetch Students</button>
@@ -77,7 +94,23 @@ function App() {
         onChange={(e) => setCourse(e.target.value)}
       ></input>
       <button onClick={addStudent}>Register</button>
+      <br></br>
+      <br></br>
+      <input
+        placeholder="Enter Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      ></input>
+
+      <input
+        placeholder="Enter Password"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      ></input>
+      <button onClick={login}>Login</button>
     </div>
   );
 }
+
 export default App;

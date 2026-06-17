@@ -60,12 +60,14 @@ function App() {
       alert("Login failed.");
     }
   };
+
+  const loginWithGoogle = () => {
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+  };
   return (
     <div>
       <button onClick={getStudents}>fetch Students</button>
-
       <button onClick={getBcaStudents}>fetch BCA Students</button>
-
       <ul>
         {students.map((student) => (
           <li key={student.id}>
@@ -73,12 +75,10 @@ function App() {
           </li>
         ))}
       </ul>
-
       <button onClick={fetchTotalStudentCount}>
         Fetch Total Student Count
       </button>
       <p>Total Students: {count}</p>
-
       <h1>Student Registration Form</h1>
       <input
         type="text"
@@ -86,7 +86,6 @@ function App() {
         value={name}
         onChange={(e) => setName(e.target.value)}
       ></input>
-
       <input
         type="text"
         placeholder="Course"
@@ -101,7 +100,6 @@ function App() {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       ></input>
-
       <input
         placeholder="Enter Password"
         type="password"
@@ -109,6 +107,12 @@ function App() {
         onChange={(e) => setPassword(e.target.value)}
       ></input>
       <button onClick={login}>Login</button>
+      <div style={{ padding: "40px" }}>
+        <h1>Student Management System</h1>
+
+        <button onClick={loginWithGoogle}>Login with Google</button>
+      </div>
+      <b></b>
     </div>
   );
 }

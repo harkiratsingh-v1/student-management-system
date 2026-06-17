@@ -13,6 +13,11 @@ target/
 .springBeans
 .sts4-cache
 
+# Spring Secrets
+application-secret.properties
+.env
+.env.*
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
